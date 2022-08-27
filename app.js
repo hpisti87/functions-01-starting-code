@@ -58,9 +58,9 @@ startGameBtn.addEventListener('click', () => {
   const winner = getWinner(computerChoice, playerChoice);
   let message = `You picked ${playerChoice}, computer picked ${computerChoice}, therefore you `;
   if (winner === RESULT_DRAW) {
-    message += 'had a draw.';    
+    message += 'had a draw.';
   } else if (winner === RESULT_PLAYER_WINS) {
-    message += 'won.';    
+    message += 'won.';
   } else {
     message += 'lost.';
   }
@@ -70,22 +70,31 @@ startGameBtn.addEventListener('click', () => {
 
 // Rest parameter:
 
-const sumUp = (...numbers) => {
-  let sum = 0;  
-  for (const num of numbers) {
-    sum += num;
-  }
-  return sum;
-}
+const sumUp = (resultHandler, ...numbers) => {
+  const validateNumber = number => {
+    return isNaN(number) ? 0 : number;
+  };
 
-const subtractUp = function() {
-  let sum = 0;  
-  for (const num of arguments) { // Don't use that!
+  let sum = 0;
+  for (const num of numbers) {
+    sum += validateNumber(num);
+  }
+  resultHandler(sum);
+};
+
+const subtractUp = function () {
+  let sum = 0;
+  // Don't use this:
+  for (const num of arguments) {
     sum -= num;
   }
   return sum;
-}
+};
 
-console.log(sumUp(1, 5, 10, -3, 6, 10));
-console.log(sumUp(1, 5, 10, -3, 6, 10, 25, 88));
-console.log(subtractUp(1, 10, 15, 20));
+const showResult = result => {
+  alert('The result after adding all numbers is: ' + result);
+};
+
+sumUp(showResult, 1, 5, 10, -3, 6, 10);
+sumUp(showResult, 1, 5, 'asdf', -3, 6, 10, 25, 88);
+subtractUp(1, 10, 15, 20);
